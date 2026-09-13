@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Analyze one Wikimedia Commons forgery sample on IBM Quantum hardware."""
+"""Analyze one Wikimedia Commons forgery sample on IBM Quantum hardware.
+Wikimedia Commons 위작 표본 1점을 IBM Quantum 실기기에서 분석합니다.
+"""
 
 from __future__ import annotations
 

@@ -1,20 +1,20 @@
-위작 양자 분석 분포 요약
-================================
-분석 파일: 1000개
-총 shots: {total:,}
-백엔드: ibm_kingston
-총 경과시간 합계: 221.387분
-평균 실행시간: 13.283초
+위작 양자 분석 분포 요약 / Quantum forgery analysis distribution summary
+================================================================
+분석 파일 / Analysis files: 1000
+총 shots / Total shots: 1,024,000
+백엔드 / Backend: ibm_kingston
+총 경과시간 합계 / Total elapsed time: 221.387분 / min
+평균 실행시간 / Average run time: 13.283초 / sec
 
-[추출 특징]
+[추출 특징 / Extracted features]
 - mean_luminance: 0.18504611
 - luminance_contrast: 0.40566486
 - colorfulness: 0.40380293
 - edge_density: 0.02032471
 - texture_entropy: 0.80119664
 
-[측정 비트스트링 분포: 상위 32개]
-비트스트링	횟수	비율
+[측정 비트스트링 분포 / Measured bitstring distribution: 상위 32개 / top 32]
+비트스트링 / Bitstring	횟수 / Count	비율 / Percentage
 10000	174,480	17.0391%
 01110	162,241	15.8438%
 01111	131,625	12.8540%
