@@ -15,8 +15,8 @@ The measurement distribution is an experimental quantum fingerprint of the encod
 ## Files
 
 - `results/1.txt` through `results/1000.txt`: individual hardware-run results
-- `results/distribution.png`: aggregated measurement distribution
-- `results/distribution_summary.txt`: aggregated counts and percentages
+- `visualization/distribution.png`: aggregated measurement distribution
+- `visualization/distribution_summary.txt`: aggregated counts and percentages
 - `results/source_metadata.json`: source and feature metadata
 - `results/analyze_forgery.py`: execution script
 
