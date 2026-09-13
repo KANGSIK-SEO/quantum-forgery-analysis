@@ -1,0 +1,60 @@
+{
+  "timestamp_utc": "2026-09-13T01:42:53.256157+00:00",
+  "source": {
+    "wikimedia_title": "File:The Procuress forgery by Han van Meegeren from the Courtauld Gallery.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/The_Procuress_forgery_by_Han_van_Meegeren_from_the_Courtauld_Gallery.jpg",
+    "local_image": "/Users/kangsikseo/Desktop/위작분포/source_forgery.jpg"
+  },
+  "features": {
+    "mean_luminance": 0.18504611,
+    "luminance_contrast": 0.40566486,
+    "colorfulness": 0.40380293,
+    "edge_density": 0.02032471,
+    "texture_entropy": 0.80119664
+  },
+  "feature_order": [
+    "mean_luminance",
+    "luminance_contrast",
+    "colorfulness",
+    "edge_density",
+    "texture_entropy"
+  ],
+  "backend": "ibm_kingston",
+  "shots": 1024,
+  "operation_timeout_seconds": 60,
+  "circuit_qubits": 5,
+  "run": 302,
+  "quantum_result": {
+    "status": "completed",
+    "elapsed_seconds": 10.463,
+    "job_id": "daj02somhr3c73e8aio0",
+    "counts": {
+      "00000": 27,
+      "00001": 7,
+      "00010": 14,
+      "00011": 11,
+      "00100": 3,
+      "00101": 2,
+      "00110": 1,
+      "00111": 1,
+      "01000": 2,
+      "01001": 2,
+      "01010": 1,
+      "01011": 2,
+      "01100": 117,
+      "01101": 48,
+      "01110": 160,
+      "01111": 123,
+      "10000": 173,
+      "10001": 82,
+      "10010": 111,
+      "10011": 86,
+      "10101": 1,
+      "10111": 1,
+      "11100": 18,
+      "11101": 7,
+      "11110": 13,
+      "11111": 11
+    }
+  }
+}
