@@ -14,3 +14,25 @@
 
 - [`distribution.png`](distribution.png): aggregated measurement distribution / 집계 측정 분포
 - [`distribution_summary.txt`](distribution_summary.txt): bilingual summary / 한영 요약
+
+## Reproducible report / 재현 가능한 리포트
+
+Generate the static report from the tracked raw results:
+
+```bash
+python3 visualization/generate_report.py
+```
+
+The script reads `results/[0-9]*.txt` and writes:
+
+- `report_overview.png`: measurement, feature, runtime, and status overview
+- `distribution.png`: ranked 5-qubit measurement distribution
+- `feature_profile.png`: normalized image features encoded in the circuit
+- `runtime_profile.png`: hardware-run duration histogram
+- `report_summary.txt`: aggregate statistics used by the charts
+- `dashboard.html`: self-contained browser dashboard with the same aggregates
+
+Open `dashboard.html` directly in a browser; it does not require a web server or
+an external JavaScript library.
+
+The charts describe this experiment's encoded-image measurements. They are not a forgery classifier or an authenticity probability model.

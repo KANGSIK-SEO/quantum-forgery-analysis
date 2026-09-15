@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantum forgery analysis dashboard</title>
+<style>
+:root { color-scheme: light; --ink:#182033; --muted:#68738a; --line:#dce1eb; --blue:#5069d9; --orange:#e28b45; --green:#4c9f70; --red:#c95c5c; --surface:#fff; --background:#f4f6fb; }
+* { box-sizing:border-box; }
+body { margin:0; font:15px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink); background:var(--background); }
+main { max-width:1400px; margin:0 auto; padding:32px; }
+header { display:flex; justify-content:space-between; gap:24px; align-items:flex-end; margin-bottom:24px; }
+h1 { margin:0 0 6px; font-size:clamp(1.7rem,3vw,2.5rem); }
+h2 { margin:0 0 16px; font-size:1.05rem; }
+p { margin:0; color:var(--muted); }
+.grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:18px; }
+.card,.panel { background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:0 4px 18px #1820330b; }
+.card { padding:18px; } .label { color:var(--muted); font-size:.8rem; } .value { display:block; margin-top:5px; font-size:1.45rem; font-weight:700; }
+.panels { display:grid; grid-template-columns:1.5fr 1fr; gap:18px; } .panel { padding:20px; margin-bottom:18px; }
+.bar { display:flex; align-items:center; gap:10px; margin:9px 0; } .bar-label { width:48px; font-family:ui-monospace,monospace; font-size:.82rem; } .bar-track { flex:1; height:19px; background:#edf0f7; border-radius:5px; overflow:hidden; } .bar-fill { height:100%; background:var(--blue); border-radius:5px; } .bar-value { width:75px; color:var(--muted); text-align:right; font-size:.82rem; }
+.feature { display:grid; grid-template-columns:155px 1fr 55px; align-items:center; gap:10px; margin:14px 0; } .feature-name { font-family:ui-monospace,monospace; font-size:.82rem; } .feature .bar-fill { background:var(--orange); }
+table { width:100%; border-collapse:collapse; font-size:.87rem; } th,td { padding:9px 6px; border-bottom:1px solid var(--line); text-align:left; } th { color:var(--muted); font-weight:600; } td:last-child,th:last-child { text-align:right; }
+.status-list { display:flex; flex-wrap:wrap; gap:10px; } .status { padding:10px 14px; border-radius:9px; background:#eef1f8; } .status strong { display:block; font-size:1.2rem; } .note { margin-top:18px; padding:12px 14px; background:#fff8ed; border-left:3px solid var(--orange); color:#725021; }
+@media (max-width:900px) { main { padding:20px; } .grid { grid-template-columns:repeat(2,1fr); } .panels { grid-template-columns:1fr; } header { display:block; } }
+@media (max-width:520px) { .grid { grid-template-columns:1fr; } .feature { grid-template-columns:125px 1fr 48px; } }
+</style>
+</head>
+<body>
+<main>
+<header><div><h1>Quantum forgery analysis dashboard</h1><p>Static, reproducible view of the tracked IBM Quantum run results.</p></div><p id="backend"></p></header>
+<section class="grid" id="cards"></section>
+<section class="panels">
+<div>
+<article class="panel"><h2>Measurement distribution</h2><div id="distribution"></div></article>
+<article class="panel"><h2>Top measured states</h2><table><thead><tr><th>Bitstring</th><th>Count</th><th>Probability</th></tr></thead><tbody id="states"></tbody></table></article>
+</div>
+<div>
+<article class="panel"><h2>Encoded image features</h2><div id="features"></div></article>
+<article class="panel"><h2>Run status</h2><div class="status-list" id="statuses"></div><div class="note">This dashboard visualizes an experimental quantum fingerprint. It is not an authenticity classifier or forgery probability model.</div></article>
+</div>
+</section>
+</main>
+<script>
+const report = {"backend":"ibm_fez","runs":1000,"shotsPerRun":1024,"totalShots":1017856,"features":{"mean_luminance":0.20231941,"luminance_contrast":0.4800303,"colorfulness":0.31518573,"edge_density":0.01748657,"texture_entropy":0.85298327},"counts":{"10000":443641,"01110":196032,"01100":125831,"10010":65645,"01111":40191,"00000":34651,"10001":26365,"11110":14623,"10011":12503,"11100":9296,"01101":8253,"01000":5881,"00010":5198,"00110":4797,"11000":3823,"00100":3154,"10110":2898,"11111":2897,"10100":2532,"01010":2190,"00001":2024,"00111":1000,"00011":963,"11010":706,"11101":610,"10111":545,"01011":471,"01001":376,"11001":241,"00101":211,"10101":187,"11011":121},"statuses":{"completed":994,"error":6},"elapsed":[7.321,7.409,6.085,7.5,7.32,6.152,7.639,5.895,6.596,7.422,7.358,7.533,7.341,5.943,7.411,7.345,5.965,6.133,6.017,5.959,7.371,5.986,7.349,6.043,7.343,6.004,6.002,7.366,6.074,5.927,7.477,7.489,6.003,7.303,6.045,6.014,7.349,5.797,7.373,5.879,5.961,7.404,7.735,6.16,6.042,7.279,23.488,19.155,20.278,20.437,30.475,30.74,30.577,30.289,28.206,28.053,7.449,5.9,6.057,7.362,7.34,7.233,6.18,7.586,6.144,6.058,5.957,7.344,5.939,5.979,7.384,5.988,7.263,7.39,7.356,7.373,5.941,6.019,7.29,7.367,7.342,7.396,5.887,7.345,7.199,7.308,7.305,7.435,5.98,7.358,5.949,7.507,7.626,5.959,6.115,5.981,6.151,6.025,7.19,7.296,6.258,6.016,5.869,7.586,5.865,5.896,7.372,7.367,5.937,7.229,5.962,6.063,5.969,5.965,7.338,7.346,5.936,7.285,5.971,7.366,7.366,5.962,7.425,7.413,7.241,7.368,7.405,7.416,8.745,7.344,8.614,8.578,7.212,7.263,7.344,7.34,8.784,7.401,10.195,7.363,7.372,7.351,7.349,7.378,7.41,7.41,7.399,7.391,7.189,7.199,7.379,8.752,7.36,7.277,8.769,7.285,5.953,7.243,7.365,7.513,7.345,6.199,7.34,8.627,7.344,7.401,7.306,7.308,6.076,5.978,6.008,7.183,5.965,7.349,6.015,25.611,24.158,22.571,22.62,7.374,7.361,7.395,7.342,7.3,7.412,7.346,7.297,7.326,7.42,5.96,7.394,7.573,6.002,7.378,6.022,7.358,7.444,7.479,6.194,5.942,7.206,5.998,5.95,5.945,5.98,5.916,7.213,5.928,5.996,7.348,7.343,6.015,5.939,7.319,7.329,5.994,5.927,7.335,5.997,6.021,5.92,7.354,5.942,5.994,6.017,7.478,5.96,7.278,7.331,7.366,6.029,6.124,7.383,7.371,6.012,7.359,5.942,7.538,7.313,7.264,5.978,7.405,6.026,7.346,5.96,7.69,6.296,7.362,6.113,6.09,7.349,6.132,6.157,7.251,5.86,7.527,5.958,5.877,5.909,5.951,5.923,7.708,7.716,7.343,5.961,6.183,6.246,6.159,6.088,6.024,5.969,6.498,7.372,7.355,5.952,5.947,6.007,7.364,5.902,7.355,6.024,6.008,6.033,7.381,6.044,7.378,5.846,5.904,6.163,7.448,7.437,7.487,7.702,7.494,7.448,7.315,6.043,7.376,7.346,6.041,7.44,7.345,5.909,7.397,30.633,30.984,31.055,25.669,25.736,26.22,6.047,5.984,6.122,6.057,7.4,5.933,5.987,7.344,5.863,7.365,5.927,6.276,7.343,5.971,5.902,7.349,7.379,5.96,7.291,7.238,6.015,5.994,6.038,5.979,5.973,5.991,7.298,7.46,5.939,6.05,7.357,7.758,7.363,7.348,5.992,7.361,7.249,7.405,5.844,6.008,5.98,5.943,5.996,7.263,7.455,5.969,5.915,5.81,7.28,7.368,5.943,7.297,7.394,7.369,6.004,6.017,7.45,7.404,7.495,6.016,7.42,7.357,5.843,7.375,7.246,7.349,6.012,7.419,5.94,5.936,7.39,7.358,5.912,7.386,7.433,5.865,5.922,7.451,5.958,7.46,7.583,6.132,5.916,5.978,6.005,7.401,5.893,6.018,5.92,7.367,7.499,5.934,6.093,7.575,6.121,5.96,6.162,7.466,6.001,7.344,5.919,7.361,5.961,7.39,5.971,7.319,7.265,6.147,7.697,6.125,7.412,5.876,6.023,7.325,5.935,5.984,5.983,5.99,6.064,7.342,5.979,5.907,7.341,7.405,5.906,5.92,6.082,6.143,5.956,7.18,5.856,7.323,7.308,6.146,7.343,5.957,6.094,5.985,7.365,7.51,5.955,7.372,7.424,5.976,7.418,6.001,5.915,6.102,6.059,6.062,6.034,7.376,7.274,5.884,5.952,6.029,5.95,6.012,7.312,7.308,7.45,5.993,5.945,6.012,7.377,7.186,7.277,7.153,7.276,7.354,5.976,7.391,6.017,7.344,5.951,7.41,6.055,6.008,5.926,7.39,5.924,7.463,5.959,7.52,5.973,7.302,7.359,6.185,5.974,6.021,6.116,7.3,6.019,6.018,6.018,7.201,5.943,5.808,7.378,7.349,7.204,7.253,7.356,7.455,7.344,6.015,6.006,7.361,6.02,6.189,7.329,7.483,6.058,6.08,7.391,7.485,7.361,5.987,7.294,6.001,6.134,7.386,7.39,7.344,7.213,7.364,6.046,7.612,7.377,5.813,7.348,7.407,5.938,7.389,5.946,5.969,5.964,7.351,5.944,5.994,5.853,5.992,5.963,5.848,5.87,7.403,7.354,7.352,7.465,6.034,7.347,7.364,7.345,5.996,7.497,7.247,7.432,7.521,6.015,6.007,6.152,7.321,6.003,6.046,7.37,6.119,7.496,7.366,6.004,5.951,7.38,7.351,7.393,5.981,7.484,6.216,5.912,5.917,5.908,5.947,6.075,7.342,5.98,7.371,7.363,7.355,5.971,7.209,7.402,7.445,7.42,7.337,7.34,6.096,7.52,6.08,7.421,5.995,7.341,7.356,5.993,7.362,6.115,6.064,7.515,6.092,7.617,5.921,6.081,5.945,6.089,7.365,7.359,7.221,7.527,6.097,6.191,6.054,5.945,7.48,5.922,6.182,6.193,5.914,16.129,13.02,15.752,15.789,14.323,5.987,6.036,7.472,7.712,6.129,6.278,8.205,6.4,6.293,6.106,6.108,5.949,5.922,6.003,5.865,7.331,7.425,5.971,7.411,5.973,7.403,7.403,5.962,5.951,5.891,5.994,7.399,6.049,6.029,7.428,7.68,7.485,7.499,6.001,6.031,7.439,7.325,7.778,7.314,7.353,14.331,13.106,12.96,5.976,5.96,7.422,7.523,7.573,7.347,7.413,7.486,5.947,6.077,7.318,5.982,7.325,5.994,5.951,5.997,7.376,7.409,7.364,7.387,6.162,6.049,7.431,7.25,8.769,6.172,5.922,6.102,7.369,7.454,5.991,5.956,6.008,7.363,7.325,7.382,6.0,7.343,7.344,5.923,7.37,7.445,6.005,5.9,5.938,7.341,6.147,5.88,5.966,7.395,5.973,5.945,7.367,7.365,6.186,6.04,6.374,7.34,6.028,7.348,7.266,7.682,6.604,7.426,7.339,6.007,5.966,6.191,7.496,7.51,5.93,7.683,7.325,5.978,7.395,5.896,6.037,5.965,7.37,7.739,7.341,7.323,6.016,7.353,5.964,7.299,6.052,7.347,6.176,6.05,5.959,7.438,6.01,6.033,7.353,7.246,5.957,5.909,7.418,7.365,7.429,8.683,7.445,5.853,7.345,5.983,7.281,5.925,8.92,7.396,7.308,7.351,6.024,6.03,7.373,5.989,7.349,7.54,5.994,7.536,5.953,5.964,5.877,6.004,7.319,7.344,6.067,5.903,7.46,7.351,6.026,5.947,5.989,5.96,5.963,7.353,5.889,7.569,7.531,5.975,5.957,7.41,7.362,5.967,7.369,5.86,5.95,6.148,6.007,7.237,7.426,5.985,7.569,7.406,7.411,7.575,11.471,10.317,10.339,5.988,12.969,12.959,13.011,13.146,12.976,12.952,13.017,11.73,13.223,10.187,7.338,7.351,5.964,5.912,6.053,7.326,7.343,7.425,5.985,5.979,5.988,5.968,7.509,5.949,5.989,5.997,6.028,7.613,7.519,7.432,5.918,7.716,7.223,5.958,7.397,7.342,6.145,7.761,7.392,5.915,7.375,5.969,5.995,6.21,7.376,7.457,6.118,6.038,7.466,6.096,7.332,5.875,7.488,7.203,5.923,5.874,5.951,5.986,6.001,5.983,7.341,5.939,7.332,7.339,6.007,6.019,7.402,6.038,7.522,5.941,7.431,7.359,5.961,6.032,7.62,7.41,5.857,7.371,7.389,5.974,5.953,5.943,5.919,7.402,5.977,7.346,6.032,7.522,7.464,7.442,7.38,6.038,5.976,7.403,5.937,5.888,7.542,6.025,5.997,7.457,6.035,7.313,5.885,7.543,5.907,7.629,7.298,7.387,5.946,7.342,7.304,5.913,7.428,7.26,5.959,5.983,7.361,7.682,7.522,5.9,7.454,5.965,7.415,6.129,7.369,7.429,5.955,5.988,6.043,7.245,7.342,7.392,6.01,5.962,7.341,7.379,7.391,6.018,7.467,7.375,7.47,6.037,6.039,6.04,7.62,7.323,5.987,7.364,7.284,7.487,5.919,5.959,5.901,5.97,5.981,7.484,7.576,7.584]};
+const total = report.totalShots;
+const fmt = new Intl.NumberFormat();
+const pct = value => `${(value / total * 100).toFixed(4)}%`;
+document.querySelector("#backend").textContent = `Backend: ${report.backend}`;
+document.querySelector("#cards").innerHTML = [
+  ["Runs", fmt.format(report.runs)],
+  ["Shots per run", fmt.format(report.shotsPerRun)],
+  ["Total measurements", fmt.format(total)],
+  ["Mean runtime", `${(report.elapsed.reduce((a,b) => a+b, 0) / report.elapsed.length).toFixed(2)} s`]
+].map(([label,value]) => `<div class="card"><span class="label">${label}</span><span class="value">${value}</span></div>`).join("");
+const maxCount = Math.max(...Object.values(report.counts));
+document.querySelector("#distribution").innerHTML = Object.entries(report.counts).map(([state,count]) =>
+  `<div class="bar"><span class="bar-label">${state}</span><span class="bar-track"><span class="bar-fill" style="width:${count / maxCount * 100}%"></span></span><span class="bar-value">${pct(count)}</span></div>`).join("");
+document.querySelector("#states").innerHTML = Object.entries(report.counts).slice(0,12).map(([state,count]) =>
+  `<tr><td><code>${state}</code></td><td>${fmt.format(count)}</td><td>${pct(count)}</td></tr>`).join("");
+document.querySelector("#features").innerHTML = Object.entries(report.features).map(([name,value]) =>
+  `<div class="feature"><span class="feature-name">${name}</span><span class="bar-track"><span class="bar-fill" style="width:${value * 100}%"></span></span><span>${Number(value).toFixed(3)}</span></div>`).join("");
+document.querySelector("#statuses").innerHTML = Object.entries(report.statuses).map(([name,count]) =>
+  `<div class="status"><span class="label">${name}</span><strong>${fmt.format(count)}</strong></div>`).join("");
+</script>
+</body>
+</html>

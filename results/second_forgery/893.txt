@@ -1,0 +1,57 @@
+{
+  "timestamp_utc": "2026-09-15T09:15:05.403389+00:00",
+  "source": {
+    "wikimedia_title": "File:EmmausgangersVanMeegeren1937.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/21/EmmausgangersVanMeegeren1937.jpg",
+    "local_image": "results/second_forgery/source_forgery.jpg"
+  },
+  "features": {
+    "mean_luminance": 0.20231941,
+    "luminance_contrast": 0.4800303,
+    "colorfulness": 0.31518573,
+    "edge_density": 0.01748657,
+    "texture_entropy": 0.85298327
+  },
+  "feature_order": [
+    "mean_luminance",
+    "luminance_contrast",
+    "colorfulness",
+    "edge_density",
+    "texture_entropy"
+  ],
+  "backend": "ibm_fez",
+  "shots": 1024,
+  "execution_timeout_seconds": 30,
+  "queue_wait_is_not_timed": true,
+  "circuit_qubits": 5,
+  "run": 893,
+  "quantum_result": {
+    "status": "completed",
+    "job_id": "dakh8dvi3e6s738rikrg",
+    "execution_elapsed_seconds": 7.332,
+    "counts": {
+      "00000": 36,
+      "00001": 1,
+      "00010": 7,
+      "00100": 4,
+      "00110": 5,
+      "00111": 2,
+      "01000": 2,
+      "01010": 2,
+      "01011": 2,
+      "01100": 108,
+      "01101": 3,
+      "01110": 218,
+      "01111": 39,
+      "10000": 451,
+      "10001": 28,
+      "10010": 64,
+      "10011": 17,
+      "10110": 3,
+      "11100": 9,
+      "11101": 2,
+      "11110": 19,
+      "11111": 2
+    }
+  }
+}

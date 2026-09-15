@@ -1,0 +1,17 @@
+Quantum forgery analysis static report
+=======================================
+Runs: 1000
+Backend: ibm_fez
+Shots per run: 1024
+Total completed shots: 1,017,856
+Statuses: {'completed': 994, 'error': 6}
+Average elapsed seconds: 7.255
+Median elapsed seconds: 7.252
+Measurement entropy (bits): 2.716815
+
+Generated files:
+- report_overview.png
+- distribution.png
+- feature_profile.png
+- runtime_profile.png
+- dashboard.html
